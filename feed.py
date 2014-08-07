@@ -1,6 +1,7 @@
 import requests
 import hashlib
 import json,smtplib
+import os
 from setting import *
 body='''From: %s
 To: %s
@@ -8,7 +9,8 @@ Subject:%s
 
 %s
 '''
-
+base=os.path.join(os.path.dirname(__file__),'static/')
+print base
 def notify(content):
     smtp = smtplib.SMTP(server['name']) 
     smtp.login(server['user'], server['passwd']) 
@@ -21,15 +23,18 @@ def fetch(feed):
     r=requests.get(url)
     content=r.content
     url_hex=hashlib.md5(url).hexdigest()
-    hex=hashlib.md5(content).hexdigest()
+    new=hashlib.md5(content).hexdigest()
     #simple code for record old content
+    old=''
     try:
-        with open('static/'+url_hex,'r') as f:old=f.read()
-        if old!=hex:return True
+        with open(base+url_hex,'r') as f:old=f.read()
     except:
+        old=''
+    if old!=new:
+        with open(base+url_hex,'w') as f:f.write(new)
         return True
-    with open('static/'+url_hex,'w') as f:f.write(hex)
-    return False
+    else:
+        return False
 def list():
     r=requests.get(feed_url)
     content=r.text

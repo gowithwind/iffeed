@@ -5,4 +5,4 @@ feed_url='https://gowithwind.github.io/feed.json'
 try:
     from  local_setting import *
 except:
-    pass
+    print 'setup your local_setting'
