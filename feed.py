@@ -3,6 +3,7 @@ import hashlib
 import json,smtplib
 import os
 from setting import *
+import random
 body='''From: %s
 To: %s
 Subject:%s
@@ -14,7 +15,7 @@ print base
 def notify(content):
     smtp = smtplib.SMTP(server['name']) 
     smtp.login(server['user'], server['passwd']) 
-    msg=body%(fro,to,'New feeds : '+content[0:10],content)
+    msg=body%(fro,to,'New feeds :%s '%random.random(),content)
     smtp.sendmail(fro, to, msg) 
     smtp.close()
     print msg
