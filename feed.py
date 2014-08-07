@@ -15,7 +15,7 @@ print base
 def notify(content):
     smtp = smtplib.SMTP(server['name']) 
     smtp.login(server['user'], server['passwd']) 
-    msg=body%(fro,to,'New feeds :%s '%random.random(),content+str(random.random()))
+    msg=body%(fro,to,'New feeds :%s '%random.random(),content)
     smtp.sendmail(fro, to, msg) 
     smtp.close()
     print msg
